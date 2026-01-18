@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="GuiltyOfMurder.com - Premium murder mystery party kits. Buy a case. Host tonight. Feel like you're inside a neon-lit crime thriller. Coming Soon.">
+    <meta name="keywords" content="murder mystery, party games, true crime, detective, mystery party, dinner party games">
+    <meta name="author" content="GuiltyOfMurder.com">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="GuiltyOfMurder.com - The Case Awaits">
+    <meta property="og:description" content="Premium murder mystery party kits. Buy a case in minutes. Host tonight. Something sinister is coming...">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://guiltyofmurder.com">
+    <meta property="og:image" content="https://guiltyofmurder.com/og-image.png">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="GuiltyOfMurder.com - The Case Awaits">
+    <meta name="twitter:description" content="Premium murder mystery party kits. Something sinister is coming...">
+    
+    <title>GuiltyOfMurder.com | The Case Awaits</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Playfair+Display:wght@400;700;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔍</text></svg>">
+    
+    <style>
+        :root {
+            --noir: #0a0a0a;
+            --noir-light: #141414;
+            --noir-lighter: #1a1a1a;
+            --blood: #cc0000;
+            --blood-glow: #ff0033;
+            --toxic: #00ff00;
+            --toxic-dim: #00cc00;
+            --neon-cyan: #00ffff;
+            --neon-magenta: #ff00ff;
+            --smoke: #888888;
+            --ash: #666666;
+            --paper: #f5f5f0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--noir);
+            color: var(--paper);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Atmospheric Background */
+        .atmosphere {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .fog {
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: 
+                radial-gradient(ellipse at 20% 50%, rgba(204, 0, 0, 0.03) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(0, 255, 255, 0.02) 0%, transparent 40%),
+                radial-gradient(ellipse at 60% 80%, rgba(255, 0, 255, 0.02) 0%, transparent 45%);
+            animation: fog-drift 30s ease-in-out infinite;
+        }
+
+        @keyframes fog-drift {
+            0%, 100% { transform: translate(0, 0); }
+            33% { transform: translate(-5%, 3%); }
+            66% { transform: translate(3%, -5%); }
+        }
+
+        .scanlines {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(0, 0, 0, 0.1) 2px,
+                rgba(0, 0, 0, 0.1) 4px
+            );
+            opacity: 0.3;
+        }
+
+        .noise {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.02;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+        }
+
+        /* Main Container */
+        .container {
+            position: relative;
+            z-index: 1;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        /* Crime Scene Tape */
+        .crime-tape {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: repeating-linear-gradient(
+                90deg,
+                var(--blood) 0px,
+                var(--blood) 30px,
+                var(--noir) 30px,
+                var(--noir) 60px
+            );
+            height: 4px;
+            z-index: 100;
+            box-shadow: 0 0 20px var(--blood-glow);
+        }
+
+        .crime-tape-bottom {
+            position: fixed;
+            bottom: 0;
+            top: auto;
+        }
+
+        /* Logo / Brand */
+        .brand {
+            text-align: center;
+            margin-bottom: 3rem;
+            animation: fade-in 1.5s ease-out;
+        }
+
+        .brand-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            filter: drop-shadow(0 0 30px var(--blood-glow));
+            animation: pulse-glow 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { filter: drop-shadow(0 0 20px var(--blood-glow)); }
+            50% { filter: drop-shadow(0 0 40px var(--blood-glow)) drop-shadow(0 0 60px rgba(204, 0, 0, 0.5)); }
+        }
+
+        .brand-name {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            background: linear-gradient(180deg, var(--paper) 0%, var(--smoke) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+        }
+
+        .brand-name::after {
+            content: 'GUILTYOFMURDER';
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: linear-gradient(180deg, var(--blood) 0%, var(--blood-glow) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            clip-path: inset(0 0 0 0);
+            animation: glitch-reveal 8s ease-in-out infinite;
+        }
+
+        @keyframes glitch-reveal {
+            0%, 90%, 100% { clip-path: inset(0 100% 0 0); }
+            92%, 98% { clip-path: inset(0 0 0 0); }
+        }
+
+        .brand-tagline {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            color: var(--ash);
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            margin-top: 0.5rem;
+        }
+
+        /* Main Content Card */
+        .case-file {
+            background: linear-gradient(145deg, var(--noir-light) 0%, var(--noir) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 2px;
+            padding: 3rem;
+            max-width: 600px;
+            width: 100%;
+            position: relative;
+            box-shadow: 
+                0 0 0 1px rgba(204, 0, 0, 0.1),
+                0 25px 50px -12px rgba(0, 0, 0, 0.8),
+                inset 0 1px 0 rgba(255, 255, 255, 0.03);
+            animation: slide-up 1s ease-out 0.3s both;
+        }
+
+        @keyframes slide-up {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .case-file::before {
+            content: 'CLASSIFIED';
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 0.75rem;
+            color: var(--blood);
+            letter-spacing: 0.2em;
+            padding: 0.25rem 0.75rem;
+            border: 1px solid var(--blood);
+            opacity: 0.7;
+        }
+
+        .case-file::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, var(--blood) 0%, transparent 100%);
+        }
+
+        /* Headlines */
+        .headline {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.8rem, 5vw, 2.5rem);
+            font-weight: 900;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            color: var(--paper);
+        }
+
+        .headline .highlight {
+            color: var(--blood);
+            font-style: italic;
+        }
+
+        /* Body Text */
+        .case-description {
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: var(--smoke);
+            margin-bottom: 2rem;
+        }
+
+        .case-description strong {
+            color: var(--paper);
+        }
+
+        /* Status Badge */
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(0, 255, 0, 0.1);
+            border: 1px solid var(--toxic-dim);
+            padding: 0.5rem 1rem;
+            font-size: 0.75rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--toxic);
+            margin-bottom: 2rem;
+            animation: blink-status 2s ease-in-out infinite;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--toxic);
+            border-radius: 50%;
+            animation: pulse-dot 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; box-shadow: 0 0 5px var(--toxic); }
+            50% { opacity: 0.5; box-shadow: 0 0 15px var(--toxic); }
+        }
+
+        @keyframes blink-status {
+            0%, 100% { border-color: var(--toxic-dim); }
+            50% { border-color: var(--toxic); }
+        }
+
+        /* Email Form */
+        .signup-form {
+            margin-top: 2rem;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.75rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--ash);
+            margin-bottom: 0.75rem;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 0;
+            flex-wrap: wrap;
+        }
+
+        .email-input {
+            flex: 1;
+            min-width: 200px;
+            background: var(--noir);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-right: none;
+            padding: 1rem 1.25rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            color: var(--paper);
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .email-input::placeholder {
+            color: var(--ash);
+        }
+
+        .email-input:focus {
+            border-color: var(--blood);
+            background: var(--noir-lighter);
+            box-shadow: inset 0 0 20px rgba(204, 0, 0, 0.1);
+        }
+
+        .submit-btn {
+            background: var(--blood);
+            border: 1px solid var(--blood);
+            padding: 1rem 2rem;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1rem;
+            letter-spacing: 0.15em;
+            color: var(--paper);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .submit-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .submit-btn:hover {
+            background: var(--blood-glow);
+            box-shadow: 0 0 30px rgba(204, 0, 0, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .submit-btn:hover::before {
+            left: 100%;
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Success State */
+        .success-message {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+            animation: fade-in 0.5s ease-out;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        .success-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            filter: drop-shadow(0 0 20px var(--toxic));
+        }
+
+        .success-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .success-subtext {
+            color: var(--ash);
+            font-size: 0.85rem;
+        }
+
+        @keyframes fade-in {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Features Teaser */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2.5rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .feature {
+            text-align: center;
+        }
+
+        .feature-icon {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            filter: grayscale(0.3);
+        }
+
+        .feature-text {
+            font-size: 0.7rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--ash);
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 3rem;
+            text-align: center;
+            animation: fade-in 1s ease-out 0.6s both;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .social-link {
+            color: var(--ash);
+            text-decoration: none;
+            font-size: 0.75rem;
+            letter-spacing: 0.1em;
+            transition: all 0.3s ease;
+            padding: 0.5rem;
+        }
+
+        .social-link:hover {
+            color: var(--paper);
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+
+        .copyright {
+            font-size: 0.65rem;
+            color: var(--ash);
+            opacity: 0.5;
+            letter-spacing: 0.1em;
+        }
+
+        /* Evidence Markers */
+        .evidence-marker {
+            position: fixed;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 0.65rem;
+            letter-spacing: 0.2em;
+            color: var(--blood);
+            opacity: 0.15;
+            pointer-events: none;
+        }
+
+        .marker-1 { top: 15%; left: 5%; transform: rotate(-15deg); }
+        .marker-2 { top: 60%; right: 8%; transform: rotate(10deg); }
+        .marker-3 { bottom: 20%; left: 8%; transform: rotate(-5deg); }
+
+        /* Responsive */
+        @media (max-width: 640px) {
+            .container {
+                padding: 1.5rem;
+            }
+
+            .case-file {
+                padding: 2rem 1.5rem;
+            }
+
+            .case-file::before {
+                font-size: 0.6rem;
+                top: 0.75rem;
+                right: 0.75rem;
+            }
+
+            .input-group {
+                flex-direction: column;
+            }
+
+            .email-input {
+                border-right: 1px solid rgba(255, 255, 255, 0.1);
+                border-bottom: none;
+            }
+
+            .submit-btn {
+                width: 100%;
+            }
+
+            .features {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .evidence-marker {
+                display: none;
+            }
+        }
+
+        /* Print protection */
+        @media print {
+            body::before {
+                content: 'CONFIDENTIAL - DO NOT PRINT';
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%) rotate(-45deg);
+                font-size: 5rem;
+                opacity: 0.1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Atmospheric Effects -->
+    <div class="atmosphere">
+        <div class="fog"></div>
+        <div class="scanlines"></div>
+        <div class="noise"></div>
+    </div>
+
+    <!-- Crime Scene Tape -->
+    <div class="crime-tape"></div>
+    <div class="crime-tape crime-tape-bottom"></div>
+
+    <!-- Evidence Markers -->
+    <div class="evidence-marker marker-1">EVIDENCE A-01</div>
+    <div class="evidence-marker marker-2">CASE #2024-GOM</div>
+    <div class="evidence-marker marker-3">CLASSIFIED</div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Brand -->
+        <div class="brand">
+            <div class="brand-icon">🔍</div>
+            <h1 class="brand-name">GUILTYOFMURDER</h1>
+            <p class="brand-tagline">.com</p>
+        </div>
+
+        <!-- Case File Card -->
+        <div class="case-file">
+            <div class="status-badge">
+                <span class="status-dot"></span>
+                <span>Investigation in Progress</span>
+            </div>
+
+            <h2 class="headline">
+                Something <span class="highlight">sinister</span> is coming.
+            </h2>
+
+            <p class="case-description">
+                <strong>Premium murder mystery party kits</strong> designed for hosts who refuse to settle for ordinary. 
+                Buy a case in minutes. Host tonight. Feel like you're inside a <strong>neon-lit crime thriller</strong>.
+            </p>
+
+            <p class="case-description">
+                Be the first to access our exclusive collection of cinematic mysteries. 
+                Early suspects receive <strong>founding member pricing</strong> and first access when we launch.
+            </p>
+
+            <!-- Signup Form -->
+            <form class="signup-form" id="signup-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+                <label class="form-label" for="email">Join the Investigation</label>
+                <div class="input-group">
+                    <input 
+                        type="email" 
+                        id="email"
+                        name="email" 
+                        class="email-input" 
+                        placeholder="your.email@suspect.com" 
+                        required
+                        autocomplete="email"
+                    >
+                    <button type="submit" class="submit-btn">OPEN THE CASE</button>
+                </div>
+                <input type="hidden" name="_subject" value="New suspect joined the investigation">
+                <input type="hidden" name="_next" value="#success">
+            </form>
+
+            <!-- Success Message -->
+            <div class="success-message" id="success-message">
+                <div class="success-icon">🎯</div>
+                <p class="success-text">You're on the list, suspect.</p>
+                <p class="success-subtext">We'll contact you when the case files are ready.</p>
+            </div>
+
+            <!-- Features -->
+            <div class="features">
+                <div class="feature">
+                    <div class="feature-icon">⚡</div>
+                    <p class="feature-text">Instant Download</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">🎭</div>
+                    <p class="feature-text">4-12 Players</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">🔮</div>
+                    <p class="feature-text">Cinematic Stories</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">📁</div>
+                    <p class="feature-text">Host-Ready Kits</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="social-links">
+                <a href="https://instagram.com/guiltyofmurder" class="social-link" target="_blank" rel="noopener">Instagram</a>
+                <a href="https://tiktok.com/@guiltyofmurder" class="social-link" target="_blank" rel="noopener">TikTok</a>
+                <a href="mailto:hello@guiltyofmurder.com" class="social-link">Contact</a>
+            </div>
+            <p class="copyright">© 2024 GuiltyOfMurder.com — All rights reserved. This is a work of fiction.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Form Submission Handler with AJAX
+        const form = document.getElementById('signup-form');
+        const successMessage = document.getElementById('success-message');
+        
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(form);
+            const submitBtn = form.querySelector('.submit-btn');
+            const originalText = submitBtn.textContent;
+            
+            // Show loading state
+            submitBtn.textContent = 'PROCESSING...';
+            submitBtn.disabled = true;
+            
+            try {
+                const response = await fetch(form.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+                
+                if (response.ok) {
+                    // Hide form, show success
+                    form.style.display = 'none';
+                    successMessage.classList.add('show');
+                    
+                    // Track conversion (add your analytics here)
+                    if (typeof gtag !== 'undefined') {
+                        gtag('event', 'sign_up', {
+                            'event_category': 'engagement',
+                            'event_label': 'coming_soon_signup'
+                        });
+                    }
+                } else {
+                    throw new Error('Form submission failed');
+                }
+            } catch (error) {
+                // Show error state
+                submitBtn.textContent = 'ERROR - TRY AGAIN';
+                submitBtn.style.background = '#ff6600';
+                
+                setTimeout(() => {
+                    submitBtn.textContent = originalText;
+                    submitBtn.style.background = '';
+                    submitBtn.disabled = false;
+                }, 3000);
+            }
+        });
+
+        // Easter egg: Konami code reveals a secret message
+        let konamiCode = [];
+        const konamiSequence = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
+        
+        document.addEventListener('keydown', (e) => {
+            konamiCode.push(e.key);
+            konamiCode = konamiCode.slice(-10);
+            
+            if (konamiCode.join(',') === konamiSequence.join(',')) {
+                document.body.style.filter = 'hue-rotate(180deg)';
+                setTimeout(() => {
+                    document.body.style.filter = '';
+                    alert('🕵️ You found the secret! Something wicked this way comes...');
+                }, 500);
+            }
+        });
+
+        // Subtle parallax on mouse move (desktop only)
+        if (window.innerWidth > 768) {
+            document.addEventListener('mousemove', (e) => {
+                const fog = document.querySelector('.fog');
+                const x = (e.clientX / window.innerWidth - 0.5) * 20;
+                const y = (e.clientY / window.innerHeight - 0.5) * 20;
+                fog.style.transform = `translate(${x}px, ${y}px)`;
+            });
+        }
+    </script>
+</body>
+</html>
